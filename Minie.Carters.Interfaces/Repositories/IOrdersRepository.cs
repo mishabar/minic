@@ -13,5 +13,7 @@ namespace Minie.Carters.Interfaces.Repositories
         Order GetCurrentCart(string sessionId, string userId);
         void SetItemQuantity(string sessionId, string userId, string sku, string size, int quantity);
         void RemoveItem(string sessionId, string userId, string sku, string size);
+        void Save(Order order);
+        Order GetByMPRefID(string mpRefID);
     }
 }

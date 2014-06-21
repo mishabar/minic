@@ -1,0 +1,42 @@
+﻿@model Minie.Carters.Data.Order
+@{
+    ViewBag.Title = "ropinhas - Order Status";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h3>Order Status</h3>
+        <div>
+            @Model.Status
+        </div>
+        <table class="table table-condensed checkout">
+            <thead>
+                <tr>
+                    <th style="width: 160px;"></th>
+                    <th></th>
+                    <th style="width: 40px"></th>
+                    <th style="width: 100px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr data-sku="@item.SKU" data-size="@item.Size">
+                        <td>
+                            <img src="@item.ImageUrl" class="img-responsive"/></td>
+                        <td><strong>@HttpUtility.HtmlDecode(item.Name)</strong></td>
+                        <td>@item.Quantity</td>
+                        <td>x R$ @item.Price.ToString("N2", new System.Globalization.CultureInfo("pt-BR"))</td>
+                    </tr>
+                }
+                <tr style="font-weight: bold;">
+                    <td></td>
+                    <td id="itemsQuantity" colspan="2" style="text-align: right;">@Model.Items.Sum(i => i.Quantity) items</td>
+                    <td id="itemsTotal">R$ @Model.Items.Sum(i => i.Price * i.Quantity).ToString("N2", new System.Globalization.CultureInfo("pt-BR"))</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

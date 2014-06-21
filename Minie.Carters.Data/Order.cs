@@ -20,6 +20,8 @@ namespace Minie.Carters.Data
         {
             Items = new List<OrderItem>();
         }
+
+        public string MPRefID { get; set; }
     }
 
     public static class OrderExtensions

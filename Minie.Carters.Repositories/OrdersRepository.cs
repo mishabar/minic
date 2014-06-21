@@ -88,5 +88,15 @@ namespace Minie.Carters.Repositories
             {
             }
         }
+
+        public void Save(Order order)
+        {
+            _collection.Save(order);
+        }
+
+        public Order GetByMPRefID(string mpRefID)
+        {
+            return _collection.FindOne(Query<Order>.EQ(o => o.MPRefID, mpRefID));
+        }
     }
 }

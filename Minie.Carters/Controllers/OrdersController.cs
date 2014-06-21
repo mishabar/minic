@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using mercadopago;
 using Minie.Carters.Data;
 using Minie.Carters.Interfaces.Repositories;
 using Minie.Carters.Models;
+using Newtonsoft.Json;
 
 namespace Minie.Carters.Controllers
 {
@@ -115,6 +119,43 @@ namespace Minie.Carters.Controllers
         }
 
         [HttpPost]
+        public ActionResult DoCheckout()
+        {
+            string sessionId = Session.SessionID;
+            string userId = null;
+
+            // get user
+            if (User.Identity.IsAuthenticated)
+            {
+                userId = _usersRepo.Find(User.Identity.Name).Email;
+            }
+            Order order = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices();
+            if (order == null || order.Items.Count == 0)
+            {
+                return Redirect("/");
+            }
+
+            MP mp = new MP(ConfigurationManager.AppSettings["MPClientID"], ConfigurationManager.AppSettings["MPSecret"]);
+            mp.sandboxMode(bool.Parse(ConfigurationManager.AppSettings["MPSandbox"]));
+            var data = new
+            {
+                items = order.Items.Select(i => new { title = i.Name, quantity = i.Quantity, currency_id = "BRL", unit_price = i.Price }).ToArray(),
+                back_urls = new { success = Url.RouteUrl("CheckoutStatus", null, "http"),
+                                  failure = Url.RouteUrl("CheckoutStatus", null, "http"),
+                                  pending = Url.RouteUrl("CheckoutStatus", null, "http")
+                }
+            };
+            Hashtable preference = mp.createPreference(JsonConvert.SerializeObject(data));
+
+            order = _ordersRepo.GetCurrentCart(sessionId, userId);
+            order.MPRefID = (string)((Hashtable)preference["response"])["id"];
+
+            _ordersRepo.Save(order);
+
+            return Json(new { url = (string)((Hashtable)preference["response"])[ConfigurationManager.AppSettings["MPUrl"]] });
+        }
+
+        [HttpPost]
         public ActionResult SetItemQuantity(SetItemQuantityModel model)
         {
             string sessionId = Session.SessionID;
@@ -142,6 +183,26 @@ namespace Minie.Carters.Controllers
             catch
             {
                 return Json(new { error = "Unexpected error occurred. Please try again.", cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices() });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult CheckoutStatus()
+        {
+            string mpRefID = Request["preference_id"];
+            string status = Request["collection_status"];
+
+            if (string.IsNullOrWhiteSpace(mpRefID) || string.IsNullOrWhiteSpace(status))
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                Order order = _ordersRepo.GetByMPRefID(mpRefID);
+                order.Status = status;
+                _ordersRepo.Save(order);
+
+                return View("Status", order.AdjustItemPrices());
             }
         }
     }

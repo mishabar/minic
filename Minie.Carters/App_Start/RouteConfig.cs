@@ -62,6 +62,18 @@ namespace Minie.Carters
                 );
 
             routes.MapRoute(
+                name: "DoCheckout",
+                url: "Orders/DoCheckout",
+                defaults: new { controller = "Orders", action = "DoCheckout" }
+                );
+
+            routes.MapRoute(
+                name: "CheckoutStatus",
+                url: "Orders/CheckoutStatus",
+                defaults: new { controller = "Orders", action = "CheckoutStatus" }
+                );
+
+            routes.MapRoute(
                 name: "ProductsIndexWithSizes",
                 url: "{category}/{page}",
                 defaults: new { controller = "Products", action = "Index", sizes = "", page = 1 });

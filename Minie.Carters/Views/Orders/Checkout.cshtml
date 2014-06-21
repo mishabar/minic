@@ -1,7 +1,7 @@
 ﻿@model Minie.Carters.Data.Order
 
 @{
-    ViewBag.Title = "Checkout";
+    ViewBag.Title = "ropinhas - Checkout";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -40,7 +40,7 @@
                     </tr>
                     <tr>
                         <td colspan="4" style="text-align: right; border-top: none;">
-                            <button class="btn btn-lg btn-warning" style="margin-top: 20px;"><i class="glyphicon glyphicon-credit-card"></i>&nbsp;Payment</button>
+                            <button class="btn btn-lg btn-warning" style="margin-top: 20px;" onclick="_doCheckout()"><i class="glyphicon glyphicon-credit-card"></i>&nbsp;Payment</button>
                         </td>
                     </tr>
                 </tbody>
@@ -64,5 +64,12 @@
             var $tr = $(this).closest("tr");
             removeItem($tr.data("sku"), $tr.data("size"), function () { $tr.remove(); });
         });
+
+        function _doCheckout() {
+            $.post("/Orders/DoCheckout", {}, function (response) {
+                console.log(response);
+                document.location.href = response.url;
+            });
+        }
     </script>
 }
