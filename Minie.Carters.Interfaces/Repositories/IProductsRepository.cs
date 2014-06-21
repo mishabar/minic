@@ -14,5 +14,7 @@ namespace Minie.Carters.Interfaces.Repositories
         IEnumerable<Product> GetByCategory(string category, string[] sizes, string order, int page, out int pages);
 
         Product Get(string sku);
+
+        void DeleteOutdated(long timestamp);
     }
 }

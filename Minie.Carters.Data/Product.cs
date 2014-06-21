@@ -20,6 +20,7 @@ namespace Minie.Carters.Data
         public string Category { get; set; }
         public List<string> Sizes { get; set; }
         public bool Invalid { get; set; }
+        public long Timestamp { get; set; }
     }
 
     public static class ProductExtensions

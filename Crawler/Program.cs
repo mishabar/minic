@@ -26,8 +26,9 @@ namespace Crawler
 
             string filename = null;
             string url = null;
+            long timestamp = DateTime.Now.Ticks;
 
-            foreach (var category in crepo.FindAll().Where(c => c.Order > 4))
+            foreach (var category in crepo.FindAll())
             {
                 foreach (var scutegory in category.SubCategories)
                 {
@@ -61,7 +62,8 @@ namespace Crawler
                             MSRP = (msrp == "$0" ? new float?() : float.Parse(msrp.Substring(1))),
                             Price = float.Parse(price.Substring(1)),
                             Category = scutegory.CategoryID,
-                            Sizes = new List<string>()
+                            Sizes = new List<string>(),
+                            Timestamp = timestamp
                         };
 
                         try
@@ -94,6 +96,8 @@ namespace Crawler
                         repo.Save(dbProduct);
                     }
                 }
+
+                repo.DeleteOutdated(timestamp);
             }
 
 

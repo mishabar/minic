@@ -59,5 +59,11 @@ namespace Minie.Carters.Repositories
         {
             return _collection.FindOne(Query<Product>.EQ(p => p.SKU, sku));
         }
+
+        public void DeleteOutdated(long timestamp)
+        {
+            IMongoQuery query = Query<Product>.LT(p => p.Timestamp, timestamp);
+            _collection.Remove(query, RemoveFlags.None);
+        }
     }
 }
