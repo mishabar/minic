@@ -155,6 +155,11 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Images\babies.jpg" />
+    <Content Include="Images\baby-boy.jpg" />
+    <Content Include="Images\baby-girl.jpg" />
+    <Content Include="Images\baby-neutral.jpg" />
+    <Content Include="Images\toddler-boy.jpg" />
+    <Content Include="Images\toddler-girl.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />

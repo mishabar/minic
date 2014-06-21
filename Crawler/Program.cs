@@ -18,9 +18,9 @@ namespace Crawler
             Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
 
-            MongoDB.Driver.MongoClient client = new MongoDB.Driver.MongoClient("mongodb://localhost");
-            IProductsRepository repo = new ProductsRepository(client.GetServer().GetDatabase("MinieCarters"));
-            ICategoriesRepository crepo = new CategoriesRepository(client.GetServer().GetDatabase("MinieCarters"));
+            MongoDB.Driver.MongoClient client = new MongoDB.Driver.MongoClient("mongodb://appharbor_3c3466c7-6308-4646-82f9-f2a3f03fe811:thrk7ku9kpm3bag0f0ndrhjgdo@ds027799.mongolab.com:27799/appharbor_3c3466c7-6308-4646-82f9-f2a3f03fe811");
+            IProductsRepository repo = new ProductsRepository(client.GetServer().GetDatabase("appharbor_3c3466c7-6308-4646-82f9-f2a3f03fe811"));
+            ICategoriesRepository crepo = new CategoriesRepository(client.GetServer().GetDatabase("appharbor_3c3466c7-6308-4646-82f9-f2a3f03fe811"));
 
             WebClient wc = new WebClient();
 
