@@ -24,7 +24,13 @@
                             <ul class="dropdown-menu">
                                 @foreach (var subCategory in category.SubCategories)
                                 {                                    
-                                    <li><a href="/@subCategory.CategoryID">@subCategory.Name</a></li>
+                                    <li>
+                                        <a href="/@subCategory.CategoryID" style="@subCategory.Style">
+                                        @if (subCategory.CategoryID.ToLower().Contains("clearance"))
+                                        {
+                                            <i class="glyphicon glyphicon-fire"></i>@:&nbsp;
+                                        }
+                                        @subCategory.Name</a></li>
                                 }
                             </ul>
                         </li>   

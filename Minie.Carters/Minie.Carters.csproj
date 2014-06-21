@@ -132,6 +132,7 @@
     </Compile>
     <Compile Include="Models\AddItemModel.cs" />
     <Compile Include="Models\AppData.cs" />
+    <Compile Include="Models\HomeOffer.cs" />
     <Compile Include="Models\RemoveItemModel.cs" />
     <Compile Include="Models\SetItemQuantityModel.cs" />
     <Compile Include="Models\UserSignin.cs" />

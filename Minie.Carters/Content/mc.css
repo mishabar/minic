@@ -1,4 +1,8 @@
-﻿html, body
+﻿html
+{
+    height: 100%;
+}
+html, body
 {
     position: relative;
     min-height: 100%;
@@ -23,7 +27,7 @@ footer
 
     footer p
     {
-        margin: 15px 0;
+        margin: 14px 0 15px 0;
     }
 
         footer p a, footer p a:hover

@@ -54,7 +54,7 @@
                 {
                 <div class="col-md-3 col-sm-4 text-center product">
                     <img src="@product.Image" class="img-thumbnail" />
-                    <div class="title" title="@product.Name">@product.Name</div>
+                    <div class="title" title="@HttpUtility.HtmlDecode(product.Name)">@HttpUtility.HtmlDecode(product.Name)</div>
                     <div class="price">@string.Format("{0:c}", product.Price * 5)</div>
                     <div class="actions">
                         @if (product.Sizes != null && product.Sizes.Count > 0)
@@ -121,16 +121,6 @@
             } else {
                 document.location.href = "/@Model.Category?order=" + order;
             }
-        }
-
-        function addToCart(sku, size) {
-            $.post("/Orders/AddItem", { SKU: sku, Size: size }, function (response) {
-                if (response.error) {
-                    alert(response.error);
-                } else {
-                    updateCart(response.cart);
-                }
-            });
         }
 
         loadCart();

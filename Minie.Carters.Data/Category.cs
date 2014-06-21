@@ -18,5 +18,6 @@ namespace Minie.Carters.Data
         [BsonIgnoreIfNull]
         public List<Category> SubCategories { get; set; }
         public string[] Sizes { get; set; }
+        public string Style { get; set; }
     }
 }

@@ -53,3 +53,13 @@ function deleteItem(sku, size) {
 function goCheckout() {
     document.location.href = "/Orders/Checkout";
 }
+
+function addToCart(sku, size) {
+    $.post("/Orders/AddItem", { SKU: sku, Size: size }, function (response) {
+        if (response.error) {
+            alert(response.error);
+        } else {
+            updateCart(response.cart);
+        }
+    });
+}

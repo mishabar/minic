@@ -28,7 +28,7 @@
                     {
                         <tr data-sku="@item.SKU" data-size="@item.Size">
                             <td><img src="@item.ImageUrl" class="img-responsive"/></td>
-                            <td><strong>@item.Name</strong></td>
+                            <td><strong>@HttpUtility.HtmlDecode(item.Name)</strong></td>
                             <td><input type="number" value="@item.Quantity" style="width: 40px;" data-price="@item.Price" /></td>
                             <td>x R$ @item.Price.ToString("N2", new System.Globalization.CultureInfo("pt-BR"))<br /><p><button class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i>&nbsp;Remove</button></p></td>
                         </tr>

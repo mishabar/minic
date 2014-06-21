@@ -27,7 +27,16 @@ namespace Minie.Carters.Controllers
         {
             int pages = 1;
             string[] sizes = (string.IsNullOrWhiteSpace(Request["sizes"]) ? new string[0] : Request["sizes"].Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries));
-            string order = (string.IsNullOrWhiteSpace(Request["order"]) ? "plh" : Request["order"]); 
+            string order = (string.IsNullOrWhiteSpace(Request["order"]) ? "plh" : Request["order"]);
+            Category cat = AppData.Categories.FirstOrDefault(c => c.CategoryID == category || c.SubCategories.Any(sc => sc.CategoryID == category));
+            if (cat == null)
+            {
+                return Redirect("/");
+            }
+            else if (!cat.SubCategories.Any(sc => sc.CategoryID == category))
+            {
+                category = cat.SubCategories[0].CategoryID;
+            }
             IEnumerable<Product> products = _productsRepo.GetByCategory(category, sizes, order, page, out pages);
             return View(new ItemsIndex<Product> { Items = products, Pages = pages, Page = page, Category = category, Sizes = sizes, Order = order });
         }
