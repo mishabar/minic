@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/mc.css" rel="stylesheet" />
+</head>
+<body>
+    @Html.Partial("_Navbar", Minie.Carters.Models.AppData.Categories)
+    <div class="container main">
+        @RenderBody()
+    </div>
+    <div class="modal fade" id="login" data-remote="@Url.RouteUrl("UserSignin")">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-2.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.bootstrap.min.js"></script>
+    <script src="~/Scripts/mc.js"></script>
+    @RenderSection("scripts", false)
+</body>
+</html>

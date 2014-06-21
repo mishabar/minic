@@ -1,0 +1,61 @@
+﻿@model System.Collections.Generic.IEnumerable<Minie.Carters.Data.Category>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Brand</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    @foreach (var category in Model)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@category.Name <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                @foreach (var subCategory in category.SubCategories)
+                                {                                    
+                                    <li><a href="/@subCategory.CategoryID">@subCategory.Name</a></li>
+                                }
+                            </ul>
+                        </li>   
+                    }
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="mailto:barmic@gmail.com"><i class="glyphicon glyphicon-send"></i>&nbsp;Contact us</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i>&nbsp;@User.Identity.Name</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.RouteUrl("SignOut")"><i class="glyphicon glyphicon-log-out"></i>&nbsp;Sign out</a></li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li><a href="#" data-toggle="modal" data-target="#login"><i class="glyphicon glyphicon-user"></i>&nbsp;Login</a></li>
+                    }
+                    <li class="dropdown" id="_cart">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;<span class="cart-items">Empty</span>&nbsp;<span class="cart-price"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <div class="text-center">Your cart is empty</div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+

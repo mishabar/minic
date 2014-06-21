@@ -1,0 +1,68 @@
+﻿@model Minie.Carters.Data.Order
+
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h3>Checkout</h3>
+        @if (Model == null)
+        {
+            <p>Your cart is empty</p>
+        }
+        else
+        {
+            <table class="table table-condensed checkout">
+                <thead>
+                    <tr>
+                        <th style="width: 160px;"></th>
+                        <th></th>
+                        <th style="width: 40px"></th>
+                        <th style="width: 100px"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr data-sku="@item.SKU" data-size="@item.Size">
+                            <td><img src="@item.ImageUrl" class="img-responsive"/></td>
+                            <td><strong>@item.Name</strong></td>
+                            <td><input type="number" value="@item.Quantity" style="width: 40px;" data-price="@item.Price" /></td>
+                            <td>x R$ @item.Price.ToString("N2", new System.Globalization.CultureInfo("pt-BR"))<br /><p><button class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i>&nbsp;Remove</button></p></td>
+                        </tr>
+                    }
+                    <tr style="font-weight: bold;">
+                        <td></td>
+                        <td id="itemsQuantity" colspan="2" style="text-align: right;">@Model.Items.Sum(i => i.Quantity) items</td>
+                        <td id="itemsTotal">R$ @Model.Items.Sum(i => i.Price * i.Quantity).ToString("N2", new System.Globalization.CultureInfo("pt-BR"))</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: right; border-top: none;">
+                            <button class="btn btn-lg btn-warning" style="margin-top: 20px;"><i class="glyphicon glyphicon-credit-card"></i>&nbsp;Payment</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        loadCart();
+
+        $("input[type=number]").on('change', function () {
+            if (isNaN(parseInt($(this).val())) || parseInt($(this).val()) < 1) { $(this).val("1"); }
+            var $tr = $(this).closest("tr");
+            updateItemQuantity($tr.data("sku"), $tr.data("size"), $(this).val());
+        });
+
+        $("table.checkout .btn-sm.btn-danger").on('click', function () {
+            var $tr = $(this).closest("tr");
+            removeItem($tr.data("sku"), $tr.data("size"), function () { $tr.remove(); });
+        });
+    </script>
+}

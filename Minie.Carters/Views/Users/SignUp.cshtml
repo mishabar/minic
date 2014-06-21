@@ -1,0 +1,31 @@
+﻿@model Minie.Carters.Models.UserSignup
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="login">
+    <h3>Register</h3>
+    <hr />
+    @using (Html.BeginForm("Signup", "Users", FormMethod.Post))
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name" })
+        </div>
+        <div class="form-group">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email", type = "email" })
+        </div>
+        <div class="form-group">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+        </div>
+        <div class="form-group">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+        </div>
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-default btn-lg">Register</button>
+        </div>
+    }
+</div>
