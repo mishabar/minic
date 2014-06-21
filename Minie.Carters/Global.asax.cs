@@ -34,7 +34,7 @@ namespace Minie.Carters
 
             MongoClient mongoClient = new MongoClient(ConfigurationManager.AppSettings["MongoDB"]);
 
-            builder.Register(c => mongoClient.GetServer().GetDatabase("MinieCarters")).AsSelf();
+            builder.Register(c => mongoClient.GetServer().GetDatabase(mongoClient.GetServer().GetDatabaseNames().First())).AsSelf();
             builder.Register(c => new CategoriesRepository(c.Resolve<MongoDatabase>())).AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.Register(c => new ProductsRepository(c.Resolve<MongoDatabase>())).AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.Register(c => new OrdersRepository(c.Resolve<MongoDatabase>())).AsImplementedInterfaces().InstancePerLifetimeScope();

@@ -181,7 +181,9 @@
     <Content Include="Views\Users\SignIn.cshtml" />
     <Content Include="Scripts\jquery-2.1.1.min.map" />
     <Content Include="Views\Users\SignUp.cshtml" />
-    <None Include="Web.AppHarbor.config" />
+    <None Include="Web.AppHarbor.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
