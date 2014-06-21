@@ -5,13 +5,13 @@
     {
         category = Minie.Carters.Models.AppData.Categories.FirstOrDefault(c => c.CategoryID == Model.Category);
     }
-    ViewBag.Title = category.Name;
+    ViewBag.Title = "ropinhas - " + category.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="row">
     <div class="col-md-2 left-column">
-        <div data-spy="affix" data-offset-top="0">
+        <div>
             <div class="category text-center">
                 <h3>@category.Name</h3>
                 <img src="@category.ImageUrl" class="img-responsive" />
@@ -95,6 +95,7 @@
         </div>
     </div>
 </div>
+<div class="clearfix"></div>
 
 @section scripts
 {

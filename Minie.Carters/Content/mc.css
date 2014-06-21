@@ -1,5 +1,46 @@
-﻿body {
+﻿html, body
+{
+    position: relative;
+    min-height: 100%;
+}
+
+body
+{
     padding-top: 50px;
+    padding-bottom: 50px;
+    position: relative;
+}
+
+footer
+{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #F5F5F5;
+    border-top: 1px solid #E7E7E7;
+}
+
+    footer p
+    {
+        margin: 15px 0;
+    }
+
+        footer p a, footer p a:hover
+        {
+            color: inherit;
+            text-decoration: none;
+        }
+
+div.page
+{
+    min-height: 100%;
+}
+
+a.navbar-brand
+{
+    font-family: 'Indie Flower';
+    font-size: 32px;
 }
 
 .affix
@@ -21,15 +62,15 @@
     position: relative;
 }
 
-.product .title
-{
-    font-size: 15px;
-    font-weight: bold;
-    margin-top: 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+    .product .title
+    {
+        font-size: 15px;
+        font-weight: bold;
+        margin-top: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
     .product .msrp
     {
@@ -50,10 +91,12 @@
         display: none;
         text-align: center;
     }
+
     .product:hover .actions
     {
         display: block;
     }
+
     .product .actions ul.dropdown-menu
     {
         min-width: initial;
@@ -68,6 +111,7 @@
     margin-bottom: 5px;
     font-size: 12px;
 }
+
     .cart-item img
     {
         width: 20%;
@@ -95,6 +139,7 @@
         float: left;
         font-weight: bold;
     }
+
 li.checkout
 {
     clear: both;

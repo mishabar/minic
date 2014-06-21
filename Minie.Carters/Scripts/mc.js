@@ -3,6 +3,8 @@
     if (cart == null || cart.Items.length == 0) {
         $cart.find("span.cart-items").html("You cart it empty");
         $cart.find("span.cart-price").html("");
+        $("#itemsQuantity").html("0 items");
+        $("#itemsTotal").html("(R$ 0,00)");
     } else {
         var total = 0;
         var count = 0;

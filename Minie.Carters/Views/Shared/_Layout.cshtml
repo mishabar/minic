@@ -6,11 +6,19 @@
     <title>@ViewBag.Title</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/mc.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
 </head>
 <body>
-    @Html.Partial("_Navbar", Minie.Carters.Models.AppData.Categories)
-    <div class="container main">
-        @RenderBody()
+    <div class="page">
+        <header>
+            @Html.Partial("_Navbar", Minie.Carters.Models.AppData.Categories)
+        </header>
+        <div class="container main">
+            @RenderBody()
+        </div>
+        <footer>
+            @Html.Partial("_Footer")
+        </footer>
     </div>
     <div class="modal fade" id="login" data-remote="@Url.RouteUrl("UserSignin")">
         <div class="modal-dialog">
