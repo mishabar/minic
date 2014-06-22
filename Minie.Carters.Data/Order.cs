@@ -22,6 +22,7 @@ namespace Minie.Carters.Data
         }
 
         public string MPRefID { get; set; }
+        public string MPCollectionID { get; set; }
     }
 
     public static class OrderExtensions

@@ -15,5 +15,7 @@ namespace Minie.Carters.Interfaces.Repositories
         void RemoveItem(string sessionId, string userId, string sku, string size);
         void Save(Order order);
         Order GetByMPRefID(string mpRefID);
+
+        Order GetByMPCollectionID(string id);
     }
 }

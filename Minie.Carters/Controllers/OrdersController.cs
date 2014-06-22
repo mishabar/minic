@@ -193,16 +193,20 @@ namespace Minie.Carters.Controllers
         {
             string mpRefID = Request["preference_id"];
             string status = Request["collection_status"];
+            string collectionID = Request["collection_id"];
 
-            if (string.IsNullOrWhiteSpace(mpRefID) || string.IsNullOrWhiteSpace(status))
+            if (string.IsNullOrWhiteSpace(mpRefID) || string.IsNullOrWhiteSpace(status) || string.IsNullOrWhiteSpace(collectionID))
             {
                 return Redirect("/");
             }
             else
             {
                 Order order = _ordersRepo.GetByMPRefID(mpRefID);
+                order.MPCollectionID = collectionID;
                 order.Status = status;
                 _ordersRepo.Save(order);
+
+                //NotifyUserOrderStatus();
 
                 return View("Status", order.AdjustItemPrices());
             }
@@ -218,6 +222,13 @@ namespace Minie.Carters.Controllers
             mp.sandboxMode(bool.Parse(ConfigurationManager.AppSettings["MPSandbox"]));
 
             Hashtable paymentInfo = mp.getPaymentInfo(id);
+
+            //NotifyUserOrderStatus();
+            //NotifyBuyerOrderStatus();
+
+            Order order = _ordersRepo.GetByMPCollectionID(id);
+            order.Status = ((Hashtable)((Hashtable)paymentInfo["response"])["collection"])["status"].ToString();
+            _ordersRepo.Save(order);
 
             return Json(new { status = "OK" }, JsonRequestBehavior.AllowGet);
         }

@@ -98,5 +98,10 @@ namespace Minie.Carters.Repositories
         {
             return _collection.FindOne(Query<Order>.EQ(o => o.MPRefID, mpRefID));
         }
+
+        public Order GetByMPCollectionID(string id)
+        {
+            return _collection.FindOne(Query<Order>.EQ(o => o.MPCollectionID, id));
+        }
     }
 }
