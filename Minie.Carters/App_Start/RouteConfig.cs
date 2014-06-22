@@ -74,6 +74,12 @@ namespace Minie.Carters
                 );
 
             routes.MapRoute(
+                name: "PaymentNotification",
+                url: "Orders/Notification",
+                defaults: new { controller = "Orders", action = "Notification" }
+                );
+
+            routes.MapRoute(
                 name: "ProductsIndexWithSizes",
                 url: "{category}/{page}",
                 defaults: new { controller = "Products", action = "Index", sizes = "", page = 1 });

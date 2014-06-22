@@ -140,9 +140,11 @@ namespace Minie.Carters.Controllers
             var data = new
             {
                 items = order.Items.Select(i => new { title = i.Name, quantity = i.Quantity, currency_id = "BRL", unit_price = i.Price }).ToArray(),
-                back_urls = new { success = Url.RouteUrl("CheckoutStatus", null, "http"),
-                                  failure = Url.RouteUrl("CheckoutStatus", null, "http"),
-                                  pending = Url.RouteUrl("CheckoutStatus", null, "http")
+                back_urls = new
+                {
+                    success = "http://" + Request.Url.DnsSafeHost + Url.RouteUrl("CheckoutStatus"),
+                    failure = "http://" + Request.Url.DnsSafeHost + Url.RouteUrl("CheckoutStatus"),
+                    pending = "http://" + Request.Url.DnsSafeHost + Url.RouteUrl("CheckoutStatus")
                 }
             };
             Hashtable preference = mp.createPreference(JsonConvert.SerializeObject(data));
@@ -204,6 +206,20 @@ namespace Minie.Carters.Controllers
 
                 return View("Status", order.AdjustItemPrices());
             }
+        }
+
+        [HttpGet]
+        public ActionResult Notification()
+        {
+            string topic = Request["topic"];
+            string id = Request["id"];
+
+            MP mp = new MP(ConfigurationManager.AppSettings["MPClientID"], ConfigurationManager.AppSettings["MPSecret"]);
+            mp.sandboxMode(bool.Parse(ConfigurationManager.AppSettings["MPSandbox"]));
+
+            Hashtable paymentInfo = mp.getPaymentInfo(id);
+
+            return Json(new { status = "OK" }, JsonRequestBehavior.AllowGet);
         }
     }
 }
