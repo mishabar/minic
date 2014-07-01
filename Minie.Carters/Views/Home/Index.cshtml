@@ -19,7 +19,7 @@
                 {
                     if (product.Sizes.Count > 0)
                     {
-                    <div class="col-md-3 col-sm-4 text-center product">
+                    <div class="col-sm-3 text-center product">
                         <img src="@product.Image" class="img-thumbnail" />
                         <div class="title" title="@HttpUtility.HtmlDecode(product.Name)">@HttpUtility.HtmlDecode(product.Name)</div>
                         <div class="price">@string.Format("{0:c}", product.Price * Minie.Carters.Models.AppData.ExchangeRate)</div>
