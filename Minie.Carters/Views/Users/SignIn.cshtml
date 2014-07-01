@@ -1,7 +1,7 @@
 ﻿@model Minie.Carters.Models.UserSignin
 
 <div class="modal-header green">
-    <h4 class="modal-title">Sign In</h4>
+    <h4 class="modal-title">Entre</h4>
 </div>
 <div class="modal-body">
     @using (Ajax.BeginForm("Signin", "Account", new AjaxOptions { HttpMethod = "POST", OnSuccess = "onLoginSucceeded", OnFailure = "onLoginFailed" }, new { id = "SigninForm" }))
@@ -11,13 +11,13 @@
             @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
         </div>
         <div class="form-group">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Senha" })
         </div>
         <div class="form-group text-center">
-            <button type="submit" class="btn btn-lg btn-default">Sign in</button>
+            <button type="submit" class="btn btn-lg btn-default">Entre</button>
         </div>
         <div class="form-group text-center">
-            <a href="@Url.RouteUrl("UserSignup")">Sign up</a>
+            <a href="@Url.RouteUrl("UserSignup")">Cadastre-se</a>
         </div>
     }
 </div>

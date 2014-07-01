@@ -20,17 +20,19 @@
                     @foreach (var category in Model)
                     {
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@category.Name <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@category.Name <b class="caret"></b>
+                                <div class="text-center xs-hidden cat-sizes">@category.Sizes[0] - @category.Sizes[category.Sizes.Length - 1]</div>
+                            </a>
                             <ul class="dropdown-menu">
                                 @foreach (var subCategory in category.SubCategories)
                                 {                                    
                                     <li>
                                         <a href="/@subCategory.CategoryID" style="@subCategory.Style">
-                                        @if (subCategory.CategoryID.ToLower().Contains("clearance"))
-                                        {
-                                            <i class="glyphicon glyphicon-fire"></i>@:&nbsp;
+                                            @if (subCategory.CategoryID.ToLower().Contains("clearance"))
+                                            {
+                                                <i class="glyphicon glyphicon-fire"></i>@:&nbsp;
                                         }
-                                        @subCategory.Name</a></li>
+                                            @subCategory.Name</a></li>
                                 }
                             </ul>
                         </li>   
@@ -48,13 +50,13 @@
                     }
                     else
                     {
-                        <li><a href="#" data-toggle="modal" data-target="#login"><i class="glyphicon glyphicon-user"></i>&nbsp;Login</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#login"><i class="glyphicon glyphicon-user"></i>&nbsp;Entre/Cadastre-se</a></li>
                     }
                     <li class="dropdown" id="_cart">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;<span class="cart-items">Empty</span>&nbsp;<span class="cart-price"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;<span class="cart-items">Vasio</span>&nbsp;<span class="cart-price"></span></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <div class="text-center">Your cart is empty</div>
+                                <div class="text-center">Seu carrinho esta vasio</div>
                             </li>
                         </ul>
                     </li>

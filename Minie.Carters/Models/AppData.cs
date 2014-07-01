@@ -18,5 +18,7 @@ namespace Minie.Carters.Models
             ICategoriesRepository categoriesRepo = (ICategoriesRepository)DependencyResolver.Current.GetService<ICategoriesRepository>();
             Categories = categoriesRepo.FindAll();
         }
+
+        public static float ExchangeRate = 5;
     }
 }

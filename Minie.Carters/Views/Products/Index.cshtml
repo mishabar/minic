@@ -16,8 +16,8 @@
                 <h3>@category.Name</h3>
                 <img src="@category.ImageUrl" class="img-responsive" />
             </div>
-            <div>
-                <strong>Sizes</strong>
+            <div class="sizes-filter">
+                <strong>Tamanhos</strong>
                 @foreach (var size in category.Sizes)
                 {
                     <div class="checkbox">
@@ -28,13 +28,16 @@
                     </div>   
                 }
             </div>
+            <div>
+                <a href="#" data-toggle="modal" data-target="#sizeChart"><i class="glyphicon glyphicon-question-sign"></i>&nbsp;Guia de tamanhos</a>
+            </div>
         </div>
     </div>
     <div class="col-md-10">
         <div class="row">
             <div class="col-xs-12">
                 <h3>@category.SubCategories.First(c => c.CategoryID == Model.Category).Name
-                    <div class="btn-group pull-right">
+                    @*<div class="btn-group pull-right">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                             <i class="glyphicon glyphicon-sort-by-attributes-alt"></i>&nbsp;@Minie.Carters.Models.AppData.Orders[Model.Order]&nbsp;<span class="caret"></span>
                         </button>
@@ -44,7 +47,7 @@
                                 <li><a href="#" onclick="applyOrder(@order.Key)">@order.Value</a></li>
                             }
                         </ul>
-                    </div>
+                    </div>*@
                 </h3>
             </div>
             <hr class="col-xs-12" />
@@ -52,29 +55,26 @@
             {
                 foreach (var product in Model.Items)
                 {
+                    if (product.Sizes != null && product.Sizes.Count > 0)
+                    {
                 <div class="col-md-3 col-sm-4 text-center product">
                     <img src="@product.Image" class="img-thumbnail" />
                     <div class="title" title="@HttpUtility.HtmlDecode(product.Name)">@HttpUtility.HtmlDecode(product.Name)</div>
-                    <div class="price">@string.Format("{0:c}", product.Price * 5)</div>
+                    <div class="price">@string.Format("{0:c}", product.Price * Minie.Carters.Models.AppData.ExchangeRate)</div>
                     <div class="actions">
-                        @if (product.Sizes != null && product.Sizes.Count > 0)
-                        {
-                            <div class="btn-group">
-                                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;Add to cart&nbsp;<span class="caret"></span></button>
-                                <ul class="dropdown-menu" role="menu">
-                                    @foreach (var size in product.Sizes)
-                                    {
-                                        <li><a href="#" onclick="addToCart('@product.SKU', '@size')">@size</a></li>   
-                                    }
-                                </ul>
-                            </div>
-                        }
-                        else
-                        {
-                            <button class="btn btn-default disabled">Out of stock</button>
-                        }
+
+                        <div class="btn-group">
+                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;Pôr no carrinho&nbsp;<span class="caret"></span></button>
+                            <ul class="dropdown-menu add-to-cart" role="menu">
+                                @foreach (var size in product.Sizes)
+                                {
+                                    <li><a onclick="addToCart('@product.SKU', '@size')">@size</a></li>   
+                                }
+                            </ul>
+                        </div>
                     </div>
                 </div>
+                    }
                 }
             }
             else

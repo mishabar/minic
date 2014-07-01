@@ -42,5 +42,9 @@ namespace Minie.Carters.Controllers
             return View(model);
         }
 
+        public ActionResult SizeChart()
+        {
+            return PartialView("_Sizes");
+        }
     }
 }

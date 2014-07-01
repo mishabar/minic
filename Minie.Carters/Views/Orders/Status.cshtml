@@ -2,13 +2,30 @@
 @{
     ViewBag.Title = "ropinhas - Order Status";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string statusClass = "success";
+    string statusMessage = "Seu pagamento foi <strong>aprovado</strong>! Estamos procesando sua compra!";
+    switch (Model.Status.Trim().ToLower())
+    {
+        case "approved":
+            statusClass = "success";
+            break;
+        case "pending":
+        case "in-process":
+            statusClass = "warning";
+            statusMessage = "Seu pagamento esta em analise. Vamos procesar sua compra quando seu pagamento sera aprovado!";
+            break;
+        default:
+            statusClass = "danger";
+            statusMessage = "Seu pagamento nao foi aprovado. Tente novamente!";
+            break; 
+    }
 }
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <h3>Order Status</h3>
-        <div>
-            @Model.Status
+        <div class="alert alert-@statusClass">
+            @Html.Raw(statusMessage)
         </div>
         <table class="table table-condensed checkout">
             <thead>

@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "ropinhas - Checkout";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var totalPrice = Model.Items.Sum(i => i.Price * i.Quantity);
 }
 
 <div class="row">
@@ -10,7 +11,7 @@
         <h3>Checkout</h3>
         @if (Model == null)
         {
-            <p>Your cart is empty</p>
+            <p>Seu carrinho esta vasio</p>
         }
         else
         {
@@ -27,20 +28,41 @@
                     @foreach (var item in Model.Items)
                     {
                         <tr data-sku="@item.SKU" data-size="@item.Size">
-                            <td><img src="@item.ImageUrl" class="img-responsive"/></td>
-                            <td><strong>@HttpUtility.HtmlDecode(item.Name)</strong></td>
-                            <td><input type="number" value="@item.Quantity" style="width: 40px;" data-price="@item.Price" /></td>
-                            <td>x R$ @item.Price.ToString("N2", new System.Globalization.CultureInfo("pt-BR"))<br /><p><button class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i>&nbsp;Remove</button></p></td>
+                            <td>
+                                <img src="@item.ImageUrl" class="img-responsive"/></td>
+                            <td><strong>@HttpUtility.HtmlDecode(item.Name)</strong>&nbsp;(@item.Size)</td>
+                            <td>
+                                <input type="number" value="@item.Quantity" style="width: 40px;" data-price="@item.Price" /></td>
+                            <td>x R$ @item.Price.ToString("N2", new System.Globalization.CultureInfo("pt-BR"))<br />
+                                <p>
+                                    <button class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i>&nbsp;Apagar</button></p>
+                            </td>
                         </tr>
                     }
                     <tr style="font-weight: bold;">
                         <td></td>
-                        <td id="itemsQuantity" colspan="2" style="text-align: right;">@Model.Items.Sum(i => i.Quantity) items</td>
-                        <td id="itemsTotal">R$ @Model.Items.Sum(i => i.Price * i.Quantity).ToString("N2", new System.Globalization.CultureInfo("pt-BR"))</td>
+                        <td id="itemsQuantity" colspan="2" style="text-align: right;">@Model.Items.Sum(i => i.Quantity) itens</td>
+                        <td id="itemsTotal">R$ @totalPrice.ToString("N2", new System.Globalization.CultureInfo("pt-BR"))</td>
                     </tr>
                     <tr>
-                        <td colspan="4" style="text-align: right; border-top: none;">
-                            <button class="btn btn-lg btn-warning" style="margin-top: 20px;" onclick="_doCheckout()"><i class="glyphicon glyphicon-credit-card"></i>&nbsp;Payment</button>
+                        <td colspan="4">
+                            <h4>Termos e Condições</h4>
+                            <ul>
+                                <li>Items availability depends on their availability in Carter's online store.</li>
+                                <li>Prazo de entrega é ate 30 dias uteis</li>
+                                <li><strong>Orders less than 10 items will be processed separatly once a week. Prazo de entrega é mais de 30 dias uteis.</strong></li>
+                            </ul>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="terms">
+                                    Aceito os termos e condições
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: center; border-top: none;">
+                            <button class="btn btn-lg btn-primary disabled" id="btnCO" style="margin-top: 20px;" onclick="_doCheckout()"><i class="glyphicon glyphicon-credit-card"></i>&nbsp;Pagamento</button>
                         </td>
                     </tr>
                 </tbody>
@@ -64,6 +86,8 @@
             var $tr = $(this).closest("tr");
             removeItem($tr.data("sku"), $tr.data("size"), function () { $tr.remove(); });
         });
+
+        $("#terms").on('change', function () { $("#btnCO").toggleClass("disabled", !$(this).is(":checked")); });
 
         function _doCheckout() {
             $.post("/Orders/DoCheckout", {}, function (response) {

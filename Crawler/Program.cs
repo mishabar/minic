@@ -43,57 +43,63 @@ namespace Crawler
 
                     foreach (var product in tiles)
                     {
-                        string name = product.SelectSingleNode("div[@class='product-name']/h2/a").InnerText.Trim().Replace("&amp;", "&").Replace("&#39;", "'");
-                        string id = product.GetAttributeValue("data-itemid", null);
-                        HtmlAgilityPack.HtmlNode node = product.SelectSingleNode("div[@class='product-pricing']//span[@class='product-standard-price']");
-                        string msrp = node == null ? "$0" : node.InnerText.Trim().Split('\n')[1];
-                        string price = product.SelectSingleNode("div[@class='product-pricing']//span[starts-with(@class, 'product-sales-price')]").InnerText.Trim().Split('-').Last().Trim();
-                        string image = product.SelectSingleNode("div[@class='product-image']/a/img").GetAttributeValue("src", null).Split('?')[0];
-
-                        Console.WriteLine(string.Format("{0} ({1})\r\n{2} -> {3}\r\n{4}\r\n", name, id, msrp, price, image));
-                        var quickViewLink = product.SelectSingleNode(".//a[@class='thumb-link']");
-
-                        Minie.Carters.Data.Product dbProduct = new Minie.Carters.Data.Product
-                        {
-                            Name = name,
-                            SKU = id,
-                            Image = image,
-                            Active = true,
-                            MSRP = (msrp == "$0" ? new float?() : float.Parse(msrp.Substring(1))),
-                            Price = float.Parse(price.Substring(1)),
-                            Category = scutegory.CategoryID,
-                            Sizes = new List<string>(),
-                            Timestamp = timestamp
-                        };
-
                         try
                         {
-                            HtmlAgilityPack.HtmlDocument document2 = new HtmlAgilityPack.HtmlDocument();
-                            //wc.DownloadFile(url.Split('?')[0] + "/" + id + ".html?source=quickview&format=ajax", filename);
-                            string url2 = quickViewLink.GetAttributeValue("href", string.Empty);
-                            if (!url2.StartsWith("http://"))
-                                url2 = "http://www.carters.com" + url2;
-                            wc.DownloadFile(url2, filename);
-                            document2.Load(filename);
+                            string name = product.SelectSingleNode("div[@class='product-name']/h2/a").InnerText.Trim().Replace("&amp;", "&").Replace("&#39;", "'");
+                            string id = product.GetAttributeValue("data-itemid", null);
+                            HtmlAgilityPack.HtmlNode node = product.SelectSingleNode("div[@class='product-pricing']//span[@class='product-standard-price']");
+                            string msrp = node == null ? "$0" : node.InnerText.Trim().Split('\n')[1];
+                            string price = product.SelectSingleNode("div[@class='product-pricing']//span[starts-with(@class, 'product-sales-price')]").InnerText.Trim().Split('-').Last().Trim();
+                            string image = product.SelectSingleNode("div[@class='product-image']/a/img").GetAttributeValue("src", null).Split('?')[0];
 
-                            HtmlAgilityPack.HtmlNodeCollection sizes = document2.DocumentNode.SelectNodes("//ul[@class='swatches size']/li/a");
-                            if (sizes != null)
+                            Console.WriteLine(string.Format("{0} ({1})\r\n{2} -> {3}\r\n{4}\r\n", name, id, msrp, price, image));
+                            var quickViewLink = product.SelectSingleNode(".//a[@class='thumb-link']");
+
+                            Minie.Carters.Data.Product dbProduct = new Minie.Carters.Data.Product
                             {
-                                foreach (var size in sizes)
+                                Name = name,
+                                SKU = id,
+                                Image = image,
+                                Active = true,
+                                MSRP = (msrp == "$0" ? new float?() : float.Parse(msrp.Substring(1))),
+                                Price = float.Parse(price.Substring(1)) * (float)(scutegory.CategoryID.ToLower().Contains("clearance") ? 1.2 : 1),
+                                Category = scutegory.CategoryID,
+                                Sizes = new List<string>(),
+                                Timestamp = timestamp
+                            };
+
+                            try
+                            {
+                                HtmlAgilityPack.HtmlDocument document2 = new HtmlAgilityPack.HtmlDocument();
+                                //wc.DownloadFile(url.Split('?')[0] + "/" + id + ".html?source=quickview&format=ajax", filename);
+                                string url2 = quickViewLink.GetAttributeValue("href", string.Empty);
+                                if (!url2.StartsWith("http://"))
+                                    url2 = "http://www.carters.com" + url2;
+                                wc.DownloadFile(url2, filename);
+                                document2.Load(filename);
+
+                                HtmlAgilityPack.HtmlNodeCollection sizes = document2.DocumentNode.SelectNodes("//ul[@class='swatches size']/li/a");
+                                if (sizes != null)
                                 {
-                                    if (!size.ParentNode.GetAttributeValue("class", string.Empty).Contains("unselectable"))
+                                    foreach (var size in sizes)
                                     {
-                                        dbProduct.Sizes.Add(size.GetAttributeValue("title", string.Empty));
+                                        if (!size.ParentNode.GetAttributeValue("class", string.Empty).Contains("unselectable"))
+                                        {
+                                            dbProduct.Sizes.Add(size.GetAttributeValue("title", string.Empty));
+                                        }
                                     }
                                 }
+                                dbProduct.Invalid = false;
                             }
-                            dbProduct.Invalid = false;
+                            catch (Exception ex)
+                            {
+                                dbProduct.Invalid = true;
+                            }
+                            repo.Save(dbProduct);
                         }
-                        catch (Exception ex)
-                        {
-                            dbProduct.Invalid = true;
+                        catch
+                        { 
                         }
-                        repo.Save(dbProduct);
                     }
                 }
 

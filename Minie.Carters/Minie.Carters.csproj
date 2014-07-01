@@ -192,6 +192,7 @@
     <Content Include="Views\Users\SignUp.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Orders\Status.cshtml" />
+    <Content Include="Views\Shared\_Sizes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -7,42 +7,41 @@
 
 <div class="row">
     <div class="col-md-12 text-center">
-        <h2>Welcome to <span style="font-family: 'Indie Flower'; font-size: 38px;"><span style="color: #ED1E24;">r</span><span style="color: #0EA0C7;">o</span><span style="color: #FEBF0F">p</span><span style="color: #15A44A">in</span><span style="color: #ED1E24">h</span><span style="color: #FEBF0F">a</span><span style="color: #0EA0C7;">s</span></span></h2>
+        <h2>Bem vindos ao <span style="font-family: 'Indie Flower'; font-size: 38px;"><span style="color: #ED1E24;">r</span><span style="color: #0EA0C7;">o</span><span style="color: #FEBF0F">p</span><span style="color: #15A44A">in</span><span style="color: #ED1E24">h</span><span style="color: #FEBF0F">a</span><span style="color: #0EA0C7;">s</span></span></h2>
     </div>
 
     @foreach (var offer in Model)
     {
         <div class="col-md-10 col-md-offset-1 col-sm-12">
-            <h4>Offers in <em>@offer.CategoryName</em></h4>
+            <h4>Ofertas em <em>@offer.CategoryName</em></h4>
             <div class="row">
                 @foreach (var product in offer.Products)
                 {
+                    if (product.Sizes.Count > 0)
+                    {
                     <div class="col-md-3 col-sm-4 text-center product">
                         <img src="@product.Image" class="img-thumbnail" />
                         <div class="title" title="@HttpUtility.HtmlDecode(product.Name)">@HttpUtility.HtmlDecode(product.Name)</div>
-                        <div class="price">@string.Format("{0:c}", product.Price * 5)</div>
+                        <div class="price">@string.Format("{0:c}", product.Price * Minie.Carters.Models.AppData.ExchangeRate)</div>
                         <div class="actions">
                             @if (product.Sizes != null && product.Sizes.Count > 0)
                             {
                                 <div class="btn-group">
-                                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;Add to cart&nbsp;<span class="caret"></span></button>
-                                    <ul class="dropdown-menu" role="menu">
+                                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;Pôr no carrinho&nbsp;<span class="caret"></span></button>
+                                    <ul class="dropdown-menu add-to-cart" role="menu">
                                         @foreach (var size in product.Sizes)
                                         {
-                                            <li><a href="#" onclick="addToCart('@product.SKU', '@size')">@size</a></li>   
+                                            <li><a onclick="addToCart('@product.SKU', '@size')">@size</a></li>   
                                         }
                                     </ul>
                                 </div>
                             }
-                            else
-                            {
-                                <button class="btn btn-default disabled">Out of stock</button>
-                            }
                         </div>
                     </div>
+                    }
                 }
             </div>
-            <a href="/@offer.CategoryID" class="pull-right">Show more&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></a>
+            <a href="/@offer.CategoryID" class="pull-right">Mais ofertas em @offer.CategoryName&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></a>
         </div>        
     }
     <div class="clearfix"></div>
