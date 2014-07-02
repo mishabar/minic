@@ -162,6 +162,7 @@
     <Content Include="Images\baby-boy.jpg" />
     <Content Include="Images\baby-girl.jpg" />
     <Content Include="Images\baby-neutral.jpg" />
+    <Content Include="Images\icon.png" />
     <Content Include="Images\toddler-boy.jpg" />
     <Content Include="Images\toddler-girl.jpg" />
     <Content Include="Scripts\bootstrap.js" />
