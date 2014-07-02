@@ -37,7 +37,7 @@ namespace Minie.Carters.Repositories
         public bool ValidateUser(string email, string password)
         {
             User user = _collection.FindOne(Query<User>.EQ(u => u.Email, email));
-            return PasswordHash.ValidatePassword(password, user.Password);
+            return user != null && PasswordHash.ValidatePassword(password, user.Password);
         }
     }
 }
