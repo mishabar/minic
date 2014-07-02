@@ -204,3 +204,11 @@ a.dropdown-toggle:hover .cat-sizes, li.dropdown.open .cat-sizes
     font-size: 10px;
     display: block;
 }
+.nav > li > a
+{
+    padding: 10px 5px;
+}
+.navbar-brand
+{
+    padding-left: 0px;
+}
