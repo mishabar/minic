@@ -73,7 +73,7 @@ namespace Minie.Carters.Controllers
                 {
                     // Check unique username and email
                     if (!_usersRepo.IsUniqueEmail(model.Email))
-                        throw new InvalidOperationException("Email already in use");
+                        throw new InvalidOperationException("Email já está em uso");
 
                     _usersRepo.Save(new User { Email = model.Email.ToLowerInvariant(), Name = model.Name, Password = PasswordHash.CreateHash(model.Password) });
                     HttpCookie cookie = FormsAuthentication.GetAuthCookie(model.Email.ToLowerInvariant(), false);

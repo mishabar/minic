@@ -23,6 +23,7 @@ namespace Minie.Carters.Models
         [EmailAddress(ErrorMessage = "Email inválido")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Campo obrigatório")]
+        [StringLength(15, MinimumLength = 6, ErrorMessage = "Senha deve ter entre 6 e 15 letras")]
         public string Password { get; set; }
         [Compare("Password", ErrorMessage = "Senha não coincide")]
         public string ConfirmPassword { get; set; }
