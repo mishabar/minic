@@ -14,15 +14,19 @@
         @Html.ValidationSummary(true)
         <div class="form-group">
             @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Nome" })
+            @Html.ValidationMessageFor(m => m.Name)
         </div>
         <div class="form-group">
             @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email", type = "email" })
+            @Html.ValidationMessageFor(m => m.Email)
         </div>
         <div class="form-group">
             @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Senha" })
+            @Html.ValidationMessageFor(m => m.Password)
         </div>
         <div class="form-group">
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Verificar Senha" })
+            @Html.ValidationMessageFor(m => m.ConfirmPassword)
         </div>
         <div class="form-group text-center">
             <button type="submit" class="btn btn-default btn-lg">Cadastre-se</button>

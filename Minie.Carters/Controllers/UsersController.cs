@@ -44,7 +44,7 @@ namespace Minie.Carters.Controllers
                         Response.Cookies.Add(cookie);
                         return Json(new { status = "OK" });
                     }
-                    return Json(new { error = "Invalid email or bad password" });
+                    return Json(new { error = "Email inválido ou senha incorreta" });
                 }
                 catch (InvalidOperationException ex)
                 {

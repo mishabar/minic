@@ -217,3 +217,9 @@ a.dropdown-toggle:hover .cat-sizes, li.dropdown.open .cat-sizes
         padding-left: 0px;
     }
 }
+
+.field-validation-error
+{
+    color: #C00;
+    font-size: 80%;
+}
