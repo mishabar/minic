@@ -196,6 +196,7 @@ table.checkout .btn-sm.btn-danger
 {
     display: none;
 }
+
 a.dropdown-toggle:hover .cat-sizes, li.dropdown.open .cat-sizes
 {
     position: absolute;
@@ -223,4 +224,12 @@ a.dropdown-toggle:hover .cat-sizes, li.dropdown.open .cat-sizes
 {
     color: #C00;
     font-size: 80%;
+}
+
+.modal-price
+{
+    font-size: 24px;
+    color: #C00;
+    margin-bottom: 10px;
+    display: block;
 }

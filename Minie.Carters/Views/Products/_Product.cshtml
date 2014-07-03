@@ -3,7 +3,9 @@
 <div class="modal-body">
     <div class="row">
         <div class="col-md-5">
-            <img src="@Model.Image" class="img-responsive img-tumbnail" />
+            <a class="modal-image" href="@Model.Image" title="@Model.Name">
+                <img src="@Model.Image" class="img-responsive img-tumbnail" />
+            </a>
         </div>
         <div class="col-md-7">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -24,7 +26,10 @@
                     <a href="#" data-toggle="modal" data-target="#sizeChart">Guia de tamanhos</a>
                 </div>
                 <p>&nbsp;</p>
-                <div class="fb-like pull-left" data-href="http://minic.apphb.com/products/@Model.SKU" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
+                <div class="text-right">
+                    <span class="modal-price">@string.Format("{0:c}", Model.Price * 5)</span>
+                </div>
+                <div class="fb-like pull-left" style="margin-top: 7px;" data-href="http://minic.apphb.com/products/@Model.SKU" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
                 <button class="btn btn-warning dropdown-toggle disabled pull-right" id="pmAddTocart"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;Pôr no carrinho</button>
             </div>
         </div>
@@ -36,4 +41,5 @@
     } catch (e) {
         $('.fb-like').remove();
     }
+    setTimeout(function () { $('.modal-image').jqzoom(); }, 1000);
 </script>
