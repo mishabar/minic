@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-5">
             <a class="modal-image" href="@Model.Image" title="@Model.Name">
-                <img src="@Model.Image" class="img-responsive img-tumbnail" />
+                <img src="@Model.Image" class="img-responsive img-thumbnail" />
             </a>
         </div>
         <div class="col-md-7">
@@ -12,11 +12,14 @@
             <h3>@Model.Name</h3>
             <hr />
             <div>
-                <div class="btn-group" data-toggle="buttons">
+                <p>
+                    Por favor escolhe o tamanho:
+                </p>
+                <div class="btn-group" data-toggle="buttons" id="pmSizes">
                     @foreach (var size in Model.Sizes)
                     {
                         <label class="btn btn-default">
-                            <input type="radio" name="size" id="size" onchange="$('#pmAddTocart').removeClass('disabled')">
+                            <input type="radio" name="size" id="size" onchange="$('#pmAddToCart').removeClass('disabled')" value="@size">
                             @size
                         </label>
                     }
@@ -30,16 +33,21 @@
                     <span class="modal-price">@string.Format("{0:c}", Model.Price * 5)</span>
                 </div>
                 <div class="fb-share-button pull-left"  style="margin-top: 7px;" data-href="http://minic.apphb.com/products/@Model.SKU?ref=fb" data-type="button_count"></div>
-                <button class="btn btn-warning dropdown-toggle disabled pull-right" id="pmAddTocart"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;Pôr no carrinho</button>
+                <button class="btn btn-warning dropdown-toggle disabled pull-right" id="pmAddToCart"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;Pôr no carrinho</button>
             </div>
         </div>
     </div>
 </div>
 <script>
-    try {
-        FB.XFBML.parse();
-    } catch (e) {
-        $('.fb-share-button').remove();
-    }
-    setTimeout(function () { $('.modal-image').jqzoom(); }, 1000);
+    setTimeout(function () {
+        $('.modal-image').jqzoom();
+        try {
+            FB.XFBML.parse();
+        } catch (e) {
+            $('.fb-share-button').remove();
+        }
+    }, 1000);
+    $("#pmAddToCart").on('click', function () {
+        addToCart('@Model.SKU', $("#pmSizes label.active > input").val());
+    });
 </script>
