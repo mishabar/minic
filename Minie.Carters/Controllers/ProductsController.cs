@@ -45,7 +45,7 @@ namespace Minie.Carters.Controllers
         {
             Product product = _productsRepo.Get(sku);
 
-            if (Request.UserAgent.Contains("facebookexternalhit"))
+            if (Request.UserAgent.Contains("facebookexternalhit") || Request.UrlReferrer.AbsoluteUri.ToLower().Contains("sharer.php"))
             {
                 return View("FBProduct", product);
             }

@@ -29,7 +29,7 @@
                 <div class="text-right">
                     <span class="modal-price">@string.Format("{0:c}", Model.Price * 5)</span>
                 </div>
-                <div class="fb-like pull-left" style="margin-top: 7px;" data-href="http://minic.apphb.com/products/@Model.SKU" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
+                <div class="fb-share-button pull-left"  style="margin-top: 7px;" data-href="http://minic.apphb.com/products/@Model.SKU?ref=fb" data-type="button_count"></div>
                 <button class="btn btn-warning dropdown-toggle disabled pull-right" id="pmAddTocart"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;Pôr no carrinho</button>
             </div>
         </div>
@@ -39,7 +39,7 @@
     try {
         FB.XFBML.parse();
     } catch (e) {
-        $('.fb-like').remove();
+        $('.fb-share-button').remove();
     }
     setTimeout(function () { $('.modal-image').jqzoom(); }, 1000);
 </script>
