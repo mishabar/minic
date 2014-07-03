@@ -44,15 +44,15 @@ namespace Minie.Carters.Controllers
         public ActionResult Details(string sku)
         {
             Product product = _productsRepo.Get(sku);
-            return View("FBProduct", product);
-            //if (Request.UserAgent == "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)")
-            //{
-            //    return View("FBProduct", product);
-            //}
-            //else
-            //{
-            //    return PartialView("_Product", product);
-            //}
+
+            if (Request.UserAgent.Contains("facebookexternalhit"))
+            {
+                return View("FBProduct", product);
+            }
+            else
+            {
+                return PartialView("_Product", product);
+            }
         }
     }
 }
