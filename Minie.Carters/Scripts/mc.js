@@ -63,3 +63,10 @@ function addToCart(sku, size) {
         }
     });
 }
+
+function showProduct(sku) {
+    $("#product").data("remote", "/Products/" + sku);
+    $("#product").modal('show').on('hidden.bs.modal', function () {
+        $(this).removeData();
+    });
+}

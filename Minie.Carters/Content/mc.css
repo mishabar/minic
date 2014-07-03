@@ -71,6 +71,7 @@ a.navbar-brand
 {
     margin-bottom: 20px;
     position: relative;
+    cursor: pointer;
 }
 
     .product .title
@@ -96,7 +97,7 @@ a.navbar-brand
     .product .actions
     {
         position: absolute;
-        top: 45%;
+        top: 64%;
         left: 0px;
         right: 0px;
         display: none;

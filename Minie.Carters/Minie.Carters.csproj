@@ -194,6 +194,8 @@
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Orders\Status.cshtml" />
     <Content Include="Views\Shared\_Sizes.cshtml" />
+    <Content Include="Views\Products\_Product.cshtml" />
+    <Content Include="Views\Products\FBProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

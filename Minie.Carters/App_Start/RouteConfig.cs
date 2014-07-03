@@ -86,6 +86,11 @@ namespace Minie.Carters
                 );
 
             routes.MapRoute(
+                name: "ProductDetails",
+                url: "Products/{sku}",
+                defaults: new { controller = "Products", action = "Details" });
+
+            routes.MapRoute(
                 name: "ProductsIndexWithSizes",
                 url: "{category}/{page}",
                 defaults: new { controller = "Products", action = "Index", sizes = "", page = 1 });

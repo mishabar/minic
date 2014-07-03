@@ -40,5 +40,18 @@ namespace Minie.Carters.Controllers
             IEnumerable<Product> products = _productsRepo.GetByCategory(category, sizes, order, page, out pages);
             return View(new ItemsIndex<Product> { Items = products, Pages = pages, Page = page, Category = category, Sizes = sizes, Order = order });
         }
+
+        public ActionResult Details(string sku)
+        {
+            Product product = _productsRepo.Get(sku);
+            if (Request.UrlReferrer.AbsoluteUri == "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)")
+            {
+                return View("FBProduct", product);
+            }
+            else
+            {
+                return PartialView("_Product", product);
+            }
+        }
     }
 }

@@ -1,0 +1,39 @@
+﻿@model Minie.Carters.Data.Product
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-5">
+            <img src="@Model.Image" class="img-responsive img-tumbnail" />
+        </div>
+        <div class="col-md-7">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h3>@Model.Name</h3>
+            <hr />
+            <div>
+                <div class="btn-group" data-toggle="buttons">
+                    @foreach (var size in Model.Sizes)
+                    {
+                        <label class="btn btn-default">
+                            <input type="radio" name="size" id="size" onchange="$('#pmAddTocart').removeClass('disabled')">
+                            @size
+                        </label>
+                    }
+                </div>
+                <p>&nbsp;</p>
+                <div>
+                    <a href="#" data-toggle="modal" data-target="#sizeChart">Guia de tamanhos</a>
+                </div>
+                <p>&nbsp;</p>
+                <div class="fb-like pull-left" data-href="http://minic.apphb.com/products/@Model.SKU" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
+                <button class="btn btn-warning dropdown-toggle disabled pull-right" id="pmAddTocart"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;Pôr no carrinho</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    try {
+        FB.XFBML.parse();
+    } catch (e) {
+        $('.fb-like').remove();
+    }
+</script>

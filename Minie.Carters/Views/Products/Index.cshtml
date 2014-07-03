@@ -58,13 +58,12 @@
                     if (product.Sizes != null && product.Sizes.Count > 0)
                     {
                 <div class="col-md-3 col-sm-4 text-center product">
-                    <img src="@product.Image" class="img-thumbnail" />
+                    <img src="@product.Image" class="img-thumbnail" onclick="showProduct('@product.SKU')" />
                     <div class="title" title="@HttpUtility.HtmlDecode(product.Name)">@HttpUtility.HtmlDecode(product.Name)</div>
                     <div class="price">@string.Format("{0:c}", product.Price * Minie.Carters.Models.AppData.ExchangeRate)</div>
                     <div class="actions">
-
                         <div class="btn-group">
-                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;Pôr no carrinho&nbsp;<span class="caret"></span></button>
+                            <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;Pôr no carrinho&nbsp;<span class="caret"></span></button>
                             <ul class="dropdown-menu add-to-cart" role="menu">
                                 @foreach (var size in product.Sizes)
                                 {
