@@ -92,6 +92,7 @@ a.navbar-brand
     .product .price
     {
         font-weight: bold;
+        color: #C00;
     }
 
     .product .actions

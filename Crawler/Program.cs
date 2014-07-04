@@ -102,10 +102,9 @@ namespace Crawler
                         }
                     }
                 }
-
-                repo.DeleteOutdated(timestamp);
             }
 
+            repo.DeleteOutdated(timestamp);
 
             //crepo.Save(new Minie.Carters.Data.Category
             //{
