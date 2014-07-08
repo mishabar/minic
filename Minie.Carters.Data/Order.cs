@@ -27,13 +27,13 @@ namespace Minie.Carters.Data
 
     public static class OrderExtensions
     {
-        public static Order AdjustItemPrices(this Order order)
+        public static Order AdjustItemPrices(this Order order, float rate)
         {
             if (order != null)
             {
                 foreach (var item in order.Items)
                 {
-                    item.Price *= 5;
+                    item.Price *= rate;
                 }
             }
             return order;

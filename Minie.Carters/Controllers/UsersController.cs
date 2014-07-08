@@ -14,10 +14,12 @@ namespace Minie.Carters.Controllers
     public class UsersController : Controller
     {
         private IUsersRepository _usersRepo = null;
+        private IOrdersRepository _ordersRepo = null;
 
-        public UsersController(IUsersRepository usersRepo)
+        public UsersController(IUsersRepository usersRepo, IOrdersRepository ordersRepo)
         {
             _usersRepo = usersRepo;
+            _ordersRepo = ordersRepo;
         }
 
         [HttpGet]
@@ -42,6 +44,13 @@ namespace Minie.Carters.Controllers
                     {
                         HttpCookie cookie = FormsAuthentication.GetAuthCookie(model.Email.ToLowerInvariant(), false);
                         Response.Cookies.Add(cookie);
+                        Order order = _ordersRepo.GetCurrentCart(Session.SessionID, null);
+                        if (order != null)
+                        {
+                            order.UserId = model.Email;
+                            _ordersRepo.Save(order);
+                        }
+
                         return Json(new { status = "OK" });
                     }
                     return Json(new { error = "Email inválido ou senha incorreta" });
@@ -54,7 +63,14 @@ namespace Minie.Carters.Controllers
             }
             else
             {
-                return View(model);
+                if (Request.IsAjaxRequest())
+                {
+                    return Json(new { error = string.Join("<br/>", ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage))) }); 
+                }
+                else
+                {
+                    return View(model);
+                }
             }
         }
 
@@ -76,25 +92,56 @@ namespace Minie.Carters.Controllers
                         throw new InvalidOperationException("Email já está em uso");
 
                     _usersRepo.Save(new User { Email = model.Email.ToLowerInvariant(), Name = model.Name, Password = PasswordHash.CreateHash(model.Password) });
+                    Order order = _ordersRepo.GetCurrentCart(Session.SessionID, null);
+                    if (order != null)
+                    {
+                        order.UserId = model.Email;
+                        _ordersRepo.Save(order);
+                    }
                     HttpCookie cookie = FormsAuthentication.GetAuthCookie(model.Email.ToLowerInvariant(), false);
                     Response.Cookies.Add(cookie);
-                    return Redirect("/");
+
+                    if (Request.IsAjaxRequest())
+                    {
+                        return Json(new { status = "OK" });
+                    }
+                    else
+                    {
+                        return Redirect("/");
+                    }
                 }
                 catch (InvalidOperationException ex)
                 {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                    return View(model);
+                    if (Request.IsAjaxRequest())
+                    {
+                        return Json(new { error = string.Join("<br/>", ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage))) });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                        return View(model);
+                    }
                 }
             }
             else
             {
-                return View(model);
+                if (Request.IsAjaxRequest())
+                {
+                    return Json(new { error = string.Join("<br/>", ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage))) });
+                }
+                else
+                {
+                    return View(model);
+                }
             }
         }
 
         public ActionResult SignOut()
         {
             FormsAuthentication.SignOut();
+            Session.Clear();
+            Session.Abandon();
+            Response.Cookies.Add(new HttpCookie("ASP.NET_SessionId", ""));
             return Redirect("/");
         }
     }

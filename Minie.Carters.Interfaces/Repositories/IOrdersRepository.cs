@@ -11,6 +11,7 @@ namespace Minie.Carters.Interfaces.Repositories
     {
         bool AddItem(string sessionId, string userId, OrderItem item);
         Order GetCurrentCart(string sessionId, string userId);
+        Order GetCurrentCart(string sessionId, string userId, bool verifyAvailability);
         void SetItemQuantity(string sessionId, string userId, string sku, string size, int quantity);
         void RemoveItem(string sessionId, string userId, string sku, string size);
         void Save(Order order);

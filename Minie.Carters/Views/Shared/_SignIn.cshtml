@@ -1,0 +1,25 @@
+﻿@model Minie.Carters.Models.UserSignin
+
+<h4 class="modal-title">Entre</h4>
+<br />
+@using (Ajax.BeginForm("Signin", new { controller = "Users" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "onLoginSucceeded", OnFailure = "onLoginFailed" }, new { id = "SigninForm" }))
+{
+    <div class="text-error text-center hidden" id="signinError"></div>
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+    </div>
+    <div class="form-group">
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Senha" })
+    </div>
+    <div class="form-group text-center">
+        <button type="submit" class="btn btn-lg btn-default">Entre</button>
+    </div>
+}
+
+<script type="text/javascript">
+    function onLoginSucceeded(response) {
+        if ("error" in response) { $("#signinError").html("<div class='alert alert-danger'>" + response.error + "</div>").removeClass("hidden"); }
+        else if ("redirect" in response) { document.location.href = response.redirect; }
+        else { document.location.reload(); }
+    }
+</script>

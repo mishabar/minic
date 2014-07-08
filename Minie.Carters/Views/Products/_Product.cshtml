@@ -30,7 +30,7 @@
                 </div>
                 <p>&nbsp;</p>
                 <div class="text-right">
-                    <span class="modal-price">@string.Format("{0:c}", Model.Price * 5)</span>
+                    <span class="modal-price">@string.Format("{0:c}", Model.Price * Minie.Carters.Models.AppData.ExchangeRate)</span>
                 </div>
                 <div class="fb-share-button pull-left"  style="margin-top: 7px;" data-href="http://minic.apphb.com/products/@Model.SKU?ref=fb" data-type="button_count"></div>
                 <button class="btn btn-warning dropdown-toggle disabled pull-right" id="pmAddToCart"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;Pôr no carrinho</button>

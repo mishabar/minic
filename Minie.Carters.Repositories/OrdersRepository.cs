@@ -13,10 +13,12 @@ namespace Minie.Carters.Repositories
     public class OrdersRepository : IOrdersRepository
     {
         private MongoCollection<Order> _collection = null;
+        private MongoCollection<Product> _productCollection = null;
 
         public OrdersRepository(MongoDatabase db)
         {
             _collection = db.GetCollection<Order>("orders");
+            _productCollection = db.GetCollection<Product>("products");
         }
 
         public bool AddItem(string sessionId, string userId, OrderItem item)
@@ -50,12 +52,30 @@ namespace Minie.Carters.Repositories
 
         public Order GetCurrentCart(string sessionId, string userId)
         {
+            return GetCurrentCart(sessionId, userId, false);
+        }
+
+        public Order GetCurrentCart(string sessionId, string userId, bool verifyAvailability)
+        {
+            Order order = null;
             if (!string.IsNullOrWhiteSpace(userId))
             {
-                return _collection.FindOne(Query.And(Query<Order>.EQ(o => o.UserId, userId), Query<Order>.EQ(o => o.Status, "Open")));
+                order = _collection.FindOne(Query.And(Query<Order>.EQ(o => o.UserId, userId), Query<Order>.EQ(o => o.Status, "Open")));
+                return verifyAvailability ? VerifyAvailability(order) : order;
             }
 
-            return _collection.FindOne(Query.And(Query<Order>.EQ(o => o.SessionId, sessionId), Query<Order>.EQ(o => o.Status, "Open")));
+            order = _collection.FindOne(Query.And(Query<Order>.EQ(o => o.SessionId, sessionId), Query<Order>.EQ(o => o.Status, "Open")));
+            return verifyAvailability ? VerifyAvailability(order) : order;
+        }
+
+        private Order VerifyAvailability(Order order)
+        {
+            foreach (var item in order.Items)
+            {
+                item.IsValid = (_productCollection.FindOneById(item.SKU) != null);
+            }
+            _collection.Save(order);
+            return order;
         }
 
         public void SetItemQuantity(string sessionId, string userId, string sku, string size, int quantity)

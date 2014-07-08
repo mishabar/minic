@@ -14,5 +14,6 @@ namespace Minie.Carters.Data
         public string Size { get; set; }
         public float Price { get; set; }
         public int Quantity { get; set; }
+        public bool IsValid { get; set; }
     }
 }

@@ -19,6 +19,6 @@ namespace Minie.Carters.Models
             Categories = categoriesRepo.FindAll();
         }
 
-        public static float ExchangeRate = 5;
+        public static float ExchangeRate = 5.5F;
     }
 }

@@ -47,3 +47,12 @@
     <div class="clearfix"></div>
     <p>&nbsp;</p>
 </div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () { if (isMobile.any() != null) { $(".product .actions").show(); } });
+
+        loadCart();
+    </script>
+}

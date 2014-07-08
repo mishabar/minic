@@ -1,0 +1,31 @@
+﻿@model Minie.Carters.Models.UserSignup
+
+<h4 class="modal-title">Cadastre-se</h4>
+<br />
+@using (Ajax.BeginForm("Signup", new { controller = "Users" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "onRegisterSucceeded", OnFailure = "onRegisterFailed" }, new { id = "SignupForm" }))
+{
+    <div class="text-error text-center hidden" id="signupError"></div>
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Nome" })
+    </div>
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email", type = "email" })
+    </div>
+    <div class="form-group">
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Senha" })
+    </div>
+    <div class="form-group">
+        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Verificar Senha" })
+    </div>
+    <div class="form-group text-center">
+        <button type="submit" class="btn btn-default btn-lg">Cadastre-se</button>
+    </div>
+}
+
+<script type="text/javascript">
+    function onRegisterSucceeded(response) {
+        if ("error" in response) { $("#signupError").html("<div class='alert alert-danger'>" + response.error + "</div>").removeClass("hidden"); }
+        else if ("redirect" in response) { document.location.href = response.redirect; }
+        else { document.location.reload(); }
+    }
+</script>

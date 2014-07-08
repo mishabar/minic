@@ -27,7 +27,7 @@ namespace Minie.Carters.Data
     {
         public static OrderItem ToOrderItem(this Product product, string size)
         {
-            return new OrderItem { SKU = product.SKU, Name = product.Name, Price = product.Price, ImageUrl = product.Image, Quantity = 1, Size = size };
+            return new OrderItem { SKU = product.SKU, Name = product.Name, Price = product.Price, ImageUrl = product.Image, Quantity = 1, Size = size, IsValid = true };
         }
     }
 }

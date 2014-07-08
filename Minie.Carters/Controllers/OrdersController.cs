@@ -49,11 +49,11 @@ namespace Minie.Carters.Controllers
                     _ordersRepo.AddItem(sessionId, userId, product.ToOrderItem(model.Size));
                 }
 
-                return Json(new { cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices() });
+                return Json(new { cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices(AppData.ExchangeRate) });
             }
             catch
             {
-                return Json(new { error = "Unexpected error occurred. Please try again.", cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices() });
+                return Json(new { error = "Unexpected error occurred. Please try again.", cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices(AppData.ExchangeRate) });
             }
         }
 
@@ -73,11 +73,11 @@ namespace Minie.Carters.Controllers
 
                 _ordersRepo.RemoveItem(sessionId, userId, model.SKU, model.Size);
 
-                return Json(new { cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices() });
+                return Json(new { cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices(AppData.ExchangeRate) });
             }
             catch
             {
-                return Json(new { error = "Unexpected error occurred. Please try again.", cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices() });
+                return Json(new { error = "Unexpected error occurred. Please try again.", cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices(AppData.ExchangeRate) });
             }
         }
 
@@ -95,11 +95,11 @@ namespace Minie.Carters.Controllers
                     userId = _usersRepo.Find(User.Identity.Name).Email;
                 }
 
-                return Json(new { cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices() }, JsonRequestBehavior.AllowGet);
+                return Json(new { cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices(AppData.ExchangeRate) }, JsonRequestBehavior.AllowGet);
             }
             catch
             {
-                return Json(new { error = "Unexpected error occurred. Please try again.", cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices() }, JsonRequestBehavior.AllowGet);
+                return Json(new { error = "Unexpected error occurred. Please try again.", cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices(AppData.ExchangeRate) }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -115,7 +115,7 @@ namespace Minie.Carters.Controllers
                 userId = _usersRepo.Find(User.Identity.Name).Email;
             }
 
-            return View(_ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices());
+            return View(_ordersRepo.GetCurrentCart(sessionId, userId, true).AdjustItemPrices(AppData.ExchangeRate));
         }
 
         [HttpPost]
@@ -129,7 +129,7 @@ namespace Minie.Carters.Controllers
             {
                 userId = _usersRepo.Find(User.Identity.Name).Email;
             }
-            Order order = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices();
+            Order order = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices(AppData.ExchangeRate);
             if (order == null || order.Items.Count == 0)
             {
                 return Redirect("/");
@@ -180,11 +180,11 @@ namespace Minie.Carters.Controllers
                     _ordersRepo.SetItemQuantity(sessionId, userId, model.SKU, model.Size, model.Quantity);
                 }
 
-                return Json(new { cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices() });
+                return Json(new { cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices(AppData.ExchangeRate) });
             }
             catch
             {
-                return Json(new { error = "Unexpected error occurred. Please try again.", cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices() });
+                return Json(new { error = "Unexpected error occurred. Please try again.", cart = _ordersRepo.GetCurrentCart(sessionId, userId).AdjustItemPrices(AppData.ExchangeRate) });
             }
         }
 
@@ -208,7 +208,7 @@ namespace Minie.Carters.Controllers
 
                 //NotifyUserOrderStatus();
 
-                return View("Status", order.AdjustItemPrices());
+                return View("Status", order.AdjustItemPrices(AppData.ExchangeRate));
             }
         }
 

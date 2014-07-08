@@ -4,6 +4,7 @@
     ViewBag.Title = "ropinhas - Checkout";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var totalPrice = Model.Items.Sum(i => i.Price * i.Quantity);
+    var allItemsValid = !Model.Items.Any(i => !i.IsValid);
 }
 
 <div class="row">
@@ -29,13 +30,19 @@
                     {
                         <tr data-sku="@item.SKU" data-size="@item.Size">
                             <td>
-                                <img src="@item.ImageUrl" class="img-responsive"/></td>
-                            <td><strong>@HttpUtility.HtmlDecode(item.Name)</strong>&nbsp;(@item.Size)</td>
+                                <img src="@item.ImageUrl?sw=192&sh=192" class="img-responsive"/></td>
+                            <td><strong>@HttpUtility.HtmlDecode(item.Name)</strong>&nbsp;(@item.Size)
+                                @if (!item.IsValid)
+                                {
+                                    <h4 class="text-danger">Item indisponível</h4>
+                                }
+                            </td>
                             <td>
                                 <input type="number" value="@item.Quantity" style="width: 40px;" data-price="@item.Price" /></td>
                             <td>x R$ @item.Price.ToString("N2", new System.Globalization.CultureInfo("pt-BR"))<br />
                                 <p>
-                                    <button class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i>&nbsp;Apagar</button></p>
+                                    <button class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i>&nbsp;Apagar</button>
+                                </p>
                             </td>
                         </tr>
                     }
@@ -44,7 +51,7 @@
                         <td id="itemsQuantity" colspan="2" style="text-align: right;">@Model.Items.Sum(i => i.Quantity) itens</td>
                         <td id="itemsTotal">R$ @totalPrice.ToString("N2", new System.Globalization.CultureInfo("pt-BR"))</td>
                     </tr>
-                    <tr>
+                    <tr style="display: @(User.Identity.IsAuthenticated ? "table-row" : "none")">
                         <td colspan="4">
                             <h4>Termos e Condições</h4>
                             <ul>
@@ -60,13 +67,24 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="display: @(User.Identity.IsAuthenticated ? "table-row" : "none")">
                         <td colspan="4" style="text-align: center; border-top: none;">
                             <button class="btn btn-lg btn-primary disabled" id="btnCO" style="margin-top: 20px;" onclick="_doCheckout()"><i class="glyphicon glyphicon-credit-card"></i>&nbsp;Pagamento</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
+            if (!User.Identity.IsAuthenticated)
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.Partial("_SignIn", new Minie.Carters.Models.UserSignin())
+                    </div>
+                    <div class="col-md-6" style="border-left: 1px solid #eee;">
+                        @Html.Partial("_SignUp", new Minie.Carters.Models.UserSignup())
+                    </div>
+                </div>
+            }
         }
     </div>
 </div>

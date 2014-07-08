@@ -198,6 +198,8 @@
     <Content Include="Views\Shared\_Sizes.cshtml" />
     <Content Include="Views\Products\_Product.cshtml" />
     <Content Include="Views\Products\FBProduct.cshtml" />
+    <Content Include="Views\Shared\_SignIn.cshtml" />
+    <Content Include="Views\Shared\_SignUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

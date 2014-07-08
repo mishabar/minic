@@ -11,9 +11,11 @@
         var $items = $cart.find("ul.dropdown-menu");
         $items.html("");
         $.each(cart.Items, function (idx, item) {
-            count += item.Quantity;
-            total += (item.Quantity * item.Price);
-            $items.append("<li><div class='cart-item'><div><img src='" + item.ImageUrl + "' /><div class='item-name'>" + item.Name + "</div></div><div><div class='item-quantity'>" + item.Quantity + (item.Quantity == 1 ? " item" : " itens") + "</div><div class='item-price'>R$ " + (item.Quantity * item.Price).toFixed(2).toLocaleString() + "</div></div></div></li>");
+            if (item.IsValid){
+                count += item.Quantity;
+                total += (item.Quantity * item.Price);
+                $items.append("<li><div class='cart-item'><div><img src='" + item.ImageUrl + "?sw=82&sw=83&sm=fit' /><div class='item-name'>" + item.Name + "</div></div><div><div class='item-quantity'>" + item.Quantity + (item.Quantity == 1 ? " item" : " itens") + "</div><div class='item-price'>R$ " + (item.Quantity * item.Price).toFixed(2).toLocaleString() + "</div></div></div></li>");
+            }
         });
         $cart.find("span.cart-items").html(count + " itens");
         $cart.find("span.cart-price").html("(R$ " + total.toFixed(2).toLocaleString() + ")");
@@ -71,3 +73,24 @@ function showProduct(sku) {
         $("#product .modal-content").html("");
     });
 }
+
+var isMobile = {
+    Android: function () {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function () {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function () {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function () {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function () {
+        return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+    },
+    any: function () {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
